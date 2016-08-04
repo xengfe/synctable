@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeecare.master.dao.TempCrmBloodglucoseMapper" >
+  <resultMap id="BaseResultMap" type="com.yeecare.master.pojo.TempCrmBloodglucose" >
+    <id column="C_ID" property="cId" jdbcType="CHAR" />
+    <result column="C_UID" property="cUid" jdbcType="VARCHAR" />
+    <result column="C_DID" property="cDid" jdbcType="VARCHAR" />
+    <result column="C_DSYNC" property="cDsync" jdbcType="BIGINT" />
+    <result column="C_TIME" property="cTime" jdbcType="TIMESTAMP" />
+    <result column="C_GLU" property="cGlu" jdbcType="DECIMAL" />
+    <result column="C_FLAG" property="cFlag" jdbcType="SMALLINT" />
+    <result column="C_RES" property="cRes" jdbcType="SMALLINT" />
+    <result column="C_CTYPE" property="cCtype" jdbcType="SMALLINT" />
+    <result column="C_UPLOAD" property="cUpload" jdbcType="SMALLINT" />
+    <result column="C_CreateTime" property="cCreatetime" jdbcType="TIMESTAMP" />
+    <result column="C_ClientIP" property="cClientip" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    C_ID, C_UID, C_DID, C_DSYNC, C_TIME, C_GLU, C_FLAG, C_RES, C_CTYPE, C_UPLOAD, C_CreateTime, 
+    C_ClientIP
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from temp_crm_bloodglucose
+    where C_ID = #{cId,jdbcType=CHAR}
+  </select>
+  <select id="query" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from temp_crm_bloodglucose where C_CreateTime > subdate(current_timestamp,interval 2 hour)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from temp_crm_bloodglucose
+    where C_ID = #{cId,jdbcType=CHAR}
+  </delete>
+  <delete id="batchDeleteById" parameterType="java.util.List">
+    delete from temp_crm_bloodglucose where C_ID in
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")"> 
+        #{item.C_ID} 
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.yeecare.master.pojo.TempCrmBloodglucose" >
+    insert into temp_crm_bloodglucose (C_ID, C_UID, C_DID, 
+      C_DSYNC, C_TIME, C_GLU, 
+      C_FLAG, C_RES, C_CTYPE, 
+      C_UPLOAD, C_CreateTime, C_ClientIP
+      )
+    values (#{cId,jdbcType=CHAR}, #{cUid,jdbcType=VARCHAR}, #{cDid,jdbcType=VARCHAR}, 
+      #{cDsync,jdbcType=BIGINT}, #{cTime,jdbcType=TIMESTAMP}, #{cGlu,jdbcType=DECIMAL}, 
+      #{cFlag,jdbcType=SMALLINT}, #{cRes,jdbcType=SMALLINT}, #{cCtype,jdbcType=SMALLINT}, 
+      #{cUpload,jdbcType=SMALLINT}, #{cCreatetime,jdbcType=TIMESTAMP}, #{cClientip,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeecare.master.pojo.TempCrmBloodglucose" >
+    insert into temp_crm_bloodglucose
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        C_ID,
+      </if>
+      <if test="cUid != null" >
+        C_UID,
+      </if>
+      <if test="cDid != null" >
+        C_DID,
+      </if>
+      <if test="cDsync != null" >
+        C_DSYNC,
+      </if>
+      <if test="cTime != null" >
+        C_TIME,
+      </if>
+      <if test="cGlu != null" >
+        C_GLU,
+      </if>
+      <if test="cFlag != null" >
+        C_FLAG,
+      </if>
+      <if test="cRes != null" >
+        C_RES,
+      </if>
+      <if test="cCtype != null" >
+        C_CTYPE,
+      </if>
+      <if test="cUpload != null" >
+        C_UPLOAD,
+      </if>
+      <if test="cCreatetime != null" >
+        C_CreateTime,
+      </if>
+      <if test="cClientip != null" >
+        C_ClientIP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        #{cId,jdbcType=CHAR},
+      </if>
+      <if test="cUid != null" >
+        #{cUid,jdbcType=VARCHAR},
+      </if>
+      <if test="cDid != null" >
+        #{cDid,jdbcType=VARCHAR},
+      </if>
+      <if test="cDsync != null" >
+        #{cDsync,jdbcType=BIGINT},
+      </if>
+      <if test="cTime != null" >
+        #{cTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cGlu != null" >
+        #{cGlu,jdbcType=DECIMAL},
+      </if>
+      <if test="cFlag != null" >
+        #{cFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="cRes != null" >
+        #{cRes,jdbcType=SMALLINT},
+      </if>
+      <if test="cCtype != null" >
+        #{cCtype,jdbcType=SMALLINT},
+      </if>
+      <if test="cUpload != null" >
+        #{cUpload,jdbcType=SMALLINT},
+      </if>
+      <if test="cCreatetime != null" >
+        #{cCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cClientip != null" >
+        #{cClientip,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeecare.master.pojo.TempCrmBloodglucose" >
+    update temp_crm_bloodglucose
+    <set >
+      <if test="cUid != null" >
+        C_UID = #{cUid,jdbcType=VARCHAR},
+      </if>
+      <if test="cDid != null" >
+        C_DID = #{cDid,jdbcType=VARCHAR},
+      </if>
+      <if test="cDsync != null" >
+        C_DSYNC = #{cDsync,jdbcType=BIGINT},
+      </if>
+      <if test="cTime != null" >
+        C_TIME = #{cTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cGlu != null" >
+        C_GLU = #{cGlu,jdbcType=DECIMAL},
+      </if>
+      <if test="cFlag != null" >
+        C_FLAG = #{cFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="cRes != null" >
+        C_RES = #{cRes,jdbcType=SMALLINT},
+      </if>
+      <if test="cCtype != null" >
+        C_CTYPE = #{cCtype,jdbcType=SMALLINT},
+      </if>
+      <if test="cUpload != null" >
+        C_UPLOAD = #{cUpload,jdbcType=SMALLINT},
+      </if>
+      <if test="cCreatetime != null" >
+        C_CreateTime = #{cCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cClientip != null" >
+        C_ClientIP = #{cClientip,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where C_ID = #{cId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeecare.master.pojo.TempCrmBloodglucose" >
+    update temp_crm_bloodglucose
+    set C_UID = #{cUid,jdbcType=VARCHAR},
+      C_DID = #{cDid,jdbcType=VARCHAR},
+      C_DSYNC = #{cDsync,jdbcType=BIGINT},
+      C_TIME = #{cTime,jdbcType=TIMESTAMP},
+      C_GLU = #{cGlu,jdbcType=DECIMAL},
+      C_FLAG = #{cFlag,jdbcType=SMALLINT},
+      C_RES = #{cRes,jdbcType=SMALLINT},
+      C_CTYPE = #{cCtype,jdbcType=SMALLINT},
+      C_UPLOAD = #{cUpload,jdbcType=SMALLINT},
+      C_CreateTime = #{cCreatetime,jdbcType=TIMESTAMP},
+      C_ClientIP = #{cClientip,jdbcType=VARCHAR}
+    where C_ID = #{cId,jdbcType=CHAR}
+  </update>
+</mapper>

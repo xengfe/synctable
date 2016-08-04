@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeecare.slave.dao.BloodglucoseMapper" >
+  <resultMap id="BaseResultMap" type="com.yeecare.slave.pojo.Bloodglucose" >
+    <id column="C_ID" property="cId" jdbcType="VARCHAR" />
+    <result column="C_UID" property="cUid" jdbcType="VARCHAR" />
+    <result column="C_DID" property="cDid" jdbcType="VARCHAR" />
+    <result column="C_DSYNC" property="cDsync" jdbcType="BIGINT" />
+    <result column="C_TIME" property="cTime" jdbcType="TIMESTAMP" />
+    <result column="C_GLU" property="cGlu" jdbcType="DECIMAL" />
+    <result column="C_FLAG" property="cFlag" jdbcType="SMALLINT" />
+    <result column="C_RES" property="cRes" jdbcType="SMALLINT" />
+    <result column="C_CTYPE" property="cCtype" jdbcType="SMALLINT" />
+    <result column="C_UPLOAD" property="cUpload" jdbcType="SMALLINT" />
+    <result column="C_ClientIP" property="cClientip" jdbcType="VARCHAR" />
+    <result column="C_STATE" property="cState" jdbcType="INTEGER" />
+    <result column="C_PUSH" property="cPush" jdbcType="INTEGER" />
+    <result column="C_MSGID" property="cMsgid" jdbcType="VARCHAR" />
+    <result column="C_IsDelete" property="cIsdelete" jdbcType="INTEGER" />
+    <result column="C_Creator" property="cCreator" jdbcType="VARCHAR" />
+    <result column="C_CreateTime" property="cCreatetime" jdbcType="TIMESTAMP" />
+    <result column="C_Changer" property="cChanger" jdbcType="VARCHAR" />
+    <result column="C_ChangeTime" property="cChangetime" jdbcType="TIMESTAMP" />
+    <result column="C_Remark" property="cRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    C_ID, C_UID, C_DID, C_DSYNC, C_TIME, C_GLU, C_FLAG, C_RES, C_CTYPE, C_UPLOAD, C_ClientIP, 
+    C_STATE, C_PUSH, C_MSGID, C_IsDelete, C_Creator, C_CreateTime, C_Changer, C_ChangeTime, 
+    C_Remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bloodglucose
+    where C_ID = #{cId,jdbcType=VARCHAR}
+  </select>
+    <select id="query" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bloodglucose where C_CreateTime > subdate(current_timestamp,interval 2 hour)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bloodglucose
+    where C_ID = #{cId,jdbcType=VARCHAR}
+  </delete>
+   <insert id="insert" parameterType="com.yeecare.slave.pojo.Bloodglucose" >
+    insert into bloodglucose (C_ID, C_UID, C_DID, 
+      C_DSYNC, C_TIME, C_GLU, 
+      C_FLAG, C_RES, C_CTYPE, 
+      C_UPLOAD, C_ClientIP, C_STATE, 
+      C_PUSH, C_MSGID, C_IsDelete, 
+      C_Creator, C_CreateTime, C_Changer, 
+      C_ChangeTime, C_Remark)
+    values (#{cId,jdbcType=VARCHAR}, #{cUid,jdbcType=VARCHAR}, #{cDid,jdbcType=VARCHAR}, 
+      #{cDsync,jdbcType=BIGINT}, #{cTime,jdbcType=TIMESTAMP}, #{cGlu,jdbcType=DECIMAL}, 
+      #{cFlag,jdbcType=SMALLINT}, #{cRes,jdbcType=SMALLINT}, #{cCtype,jdbcType=SMALLINT}, 
+      #{cUpload,jdbcType=SMALLINT}, #{cClientip,jdbcType=VARCHAR}, #{cState,jdbcType=INTEGER}, 
+      #{cPush,jdbcType=INTEGER}, #{cMsgid,jdbcType=VARCHAR}, #{cIsdelete,jdbcType=INTEGER}, 
+      #{cCreator,jdbcType=VARCHAR}, #{cCreatetime,jdbcType=TIMESTAMP}, #{cChanger,jdbcType=VARCHAR}, 
+      #{cChangetime,jdbcType=TIMESTAMP}, #{cRemark,jdbcType=VARCHAR})
+  </insert> 
+  <insert id="batchSave" parameterType="java.util.ArrayList">
+  	insert into bloodglucose (C_ID, C_UID, C_DID, 
+      C_DSYNC, C_TIME, C_GLU, 
+      C_FLAG, C_RES, C_CTYPE, 
+      C_UPLOAD, C_ClientIP, C_STATE, 
+      C_PUSH, C_MSGID, C_IsDelete, 
+      C_Creator, C_CreateTime, C_Changer, 
+      C_ChangeTime, C_Remark
+      )
+    values
+     <foreach collection="list" item="obj" index="index"  separator=","  >
+      (#{obj.cId}, #{obj.cUid}, #{obj.cDid}, 
+      #{obj.cDsync}, #{obj.cTime}, #{obj.cGlu}, 
+      #{obj.cFlag}, #{obj.cRes}, #{obj.cCtype}, 
+      #{obj.cUpload}, #{obj.cClientip}, #{obj.cState}, 
+      #{obj.cPush}, #{obj.cMsgid}, #{obj.cIsdelete}, 
+      #{obj.cCreator}, #{obj.cCreatetime}, #{obj.cChanger}, 
+      #{obj.cChangetime}, #{obj.cRemark})
+      
+     </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeecare.slave.pojo.Bloodglucose" >
+    insert into bloodglucose
+    <trim prefix="(" suffix= ")" suffixOverrides="," >
+      <if test="cId != null" >
+        C_ID,
+      </if>
+      <if test="cUid != null" >
+        C_UID,
+      </if>
+      <if test="cDid != null" >
+        C_DID,
+      </if>
+      <if test="cDsync != null" >
+        C_DSYNC,
+      </if>
+      <if test="cTime != null" >
+        C_TIME,
+      </if>
+      <if test="cGlu != null" >
+        C_GLU,
+      </if>
+      <if test="cFlag != null" >
+        C_FLAG,
+      </if>
+      <if test="cRes != null" >
+        C_RES,
+      </if>
+      <if test="cCtype != null" >
+        C_CTYPE,
+      </if>
+      <if test="cUpload != null" >
+        C_UPLOAD,
+      </if>
+      <if test="cClientip != null" >
+        C_ClientIP,
+      </if>
+      <if test="cState != null" >
+        C_STATE,
+      </if>
+      <if test="cPush != null" >
+        C_PUSH,
+      </if>
+      <if test="cMsgid != null" >
+        C_MSGID,
+      </if>
+      <if test="cIsdelete != null" >
+        C_IsDelete,
+      </if>
+      <if test="cCreator != null" >
+        C_Creator,
+      </if>
+      <if test="cCreatetime != null" >
+        C_CreateTime,
+      </if>
+      <if test="cChanger != null" >
+        C_Changer,
+      </if>
+      <if test="cChangetime != null" >
+        C_ChangeTime,
+      </if>
+      <if test="cRemark != null" >
+        C_Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix= ")" suffixOverrides="," >
+      <if test="cId != null" >
+        #{cId,jdbcType=VARCHAR},
+      </if>
+      <if test="cUid != null" >
+        #{cUid,jdbcType=VARCHAR},
+      </if>
+      <if test="cDid != null" >
+        #{cDid,jdbcType=VARCHAR},          
+      </if>
+      <if test="cDsync != null" >
+        #{cDsync,jdbcType=BIGINT},
+      </if>
+      <if test="cTime != null" >
+        #{cTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cGlu != null" >
+        #{cGlu,jdbcType=DECIMAL},
+      </if>
+      <if test="cFlag != null" >
+        #{cFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="cRes != null" >
+        #{cRes,jdbcType=SMALLINT},
+      </if>
+      <if test="cCtype != null" >
+        #{cCtype,jdbcType=SMALLINT},
+      </if>
+      <if test="cUpload != null" >
+        #{cUpload,jdbcType=SMALLINT},
+      </if>
+      <if test="cClientip != null" >
+        #{cClientip,jdbcType=VARCHAR},
+      </if>
+      <if test="cState != null" >
+        #{cState,jdbcType=INTEGER},
+      </if>
+      <if test="cPush != null" >
+        #{cPush,jdbcType=INTEGER},
+      </if>
+      <if test="cMsgid != null" >
+        #{cMsgid,jdbcType=VARCHAR},
+      </if>
+      <if test="cIsdelete != null" >
+        #{cIsdelete,jdbcType=INTEGER},
+      </if>
+      <if test="cCreator != null" >
+        #{cCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        #{cCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cChanger != null" >
+        #{cChanger,jdbcType=VARCHAR},
+      </if>
+      <if test="cChangetime != null" >
+        #{cChangetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cRemark != null" >
+        #{cRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeecare.slave.pojo.Bloodglucose" >
+    update bloodglucose
+    <set >
+      <if test="cUid != null" >
+        C_UID = #{cUid,jdbcType=VARCHAR},
+      </if>
+      <if test="cDid != null" >
+        C_DID = #{cDid,jdbcType=VARCHAR},
+      </if>
+      <if test="cDsync != null" >
+        C_DSYNC = #{cDsync,jdbcType=BIGINT},
+      </if>
+      <if test="cTime != null" >
+        C_TIME = #{cTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cGlu != null" >
+        C_GLU = #{cGlu,jdbcType=DECIMAL},
+      </if>
+      <if test="cFlag != null" >
+        C_FLAG = #{cFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="cRes != null" >
+        C_RES = #{cRes,jdbcType=SMALLINT},
+      </if>
+      <if test="cCtype != null" >
+        C_CTYPE = #{cCtype,jdbcType=SMALLINT},
+      </if>
+      <if test="cUpload != null" >
+        C_UPLOAD = #{cUpload,jdbcType=SMALLINT},
+      </if>
+      <if test="cClientip != null" >
+        C_ClientIP = #{cClientip,jdbcType=VARCHAR},
+      </if>
+      <if test="cState != null" >
+        C_STATE = #{cState,jdbcType=INTEGER},
+      </if>
+      <if test="cPush != null" >
+        C_PUSH = #{cPush,jdbcType=INTEGER},
+      </if>
+      <if test="cMsgid != null" >
+        C_MSGID = #{cMsgid,jdbcType=VARCHAR},
+      </if>
+      <if test="cIsdelete != null" >
+        C_IsDelete = #{cIsdelete,jdbcType=INTEGER},
+      </if>
+      <if test="cCreator != null" >
+        C_Creator = #{cCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        C_CreateTime = #{cCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cChanger != null" >
+        C_Changer = #{cChanger,jdbcType=VARCHAR},
+      </if>
+      <if test="cChangetime != null" >
+        C_ChangeTime = #{cChangetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cRemark != null" >
+        C_Remark = #{cRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where C_ID = #{cId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeecare.slave.pojo.Bloodglucose" >
+    update bloodglucose
+    set C_UID = #{cUid,jdbcType=VARCHAR},
+      C_DID = #{cDid,jdbcType=VARCHAR},
+      C_DSYNC = #{cDsync,jdbcType=BIGINT},
+      C_TIME = #{cTime,jdbcType=TIMESTAMP},
+      C_GLU = #{cGlu,jdbcType=DECIMAL},
+      C_FLAG = #{cFlag,jdbcType=SMALLINT},
+      C_RES = #{cRes,jdbcType=SMALLINT},
+      C_CTYPE = #{cCtype,jdbcType=SMALLINT},
+      C_UPLOAD = #{cUpload,jdbcType=SMALLINT},
+      C_ClientIP = #{cClientip,jdbcType=VARCHAR},
+      C_STATE = #{cState,jdbcType=INTEGER},
+      C_PUSH = #{cPush,jdbcType=INTEGER},
+      C_MSGID = #{cMsgid,jdbcType=VARCHAR},
+      C_IsDelete = #{cIsdelete,jdbcType=INTEGER},
+      C_Creator = #{cCreator,jdbcType=VARCHAR},
+      C_CreateTime = #{cCreatetime,jdbcType=TIMESTAMP},
+      C_Changer = #{cChanger,jdbcType=VARCHAR},
+      C_ChangeTime = #{cChangetime,jdbcType=TIMESTAMP},
+      C_Remark = #{cRemark,jdbcType=VARCHAR}
+    where C_ID = #{cId,jdbcType=VARCHAR}
+  </update>
+</mapper>
