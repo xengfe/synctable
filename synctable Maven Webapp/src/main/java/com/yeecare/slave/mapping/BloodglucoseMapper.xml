@@ -70,13 +70,13 @@
       )
     values
      <foreach collection="list" item="obj" index="index"  separator=","  >
-      (#{obj.cId}, #{obj.cUid}, #{obj.cDid}, 
-      #{obj.cDsync}, #{obj.cTime}, #{obj.cGlu}, 
-      #{obj.cFlag}, #{obj.cRes}, #{obj.cCtype}, 
-      #{obj.cUpload}, #{obj.cClientip}, #{obj.cState}, 
-      #{obj.cPush}, #{obj.cMsgid}, #{obj.cIsdelete}, 
-      #{obj.cCreator}, #{obj.cCreatetime}, #{obj.cChanger}, 
-      #{obj.cChangetime}, #{obj.cRemark})
+      (#{obj.cId,jdbcType=VARCHAR}, #{obj.cUid,jdbcType=VARCHAR}, #{obj.cDid,jdbcType=VARCHAR}, 
+      #{obj.cDsync,jdbcType=BIGINT}, #{obj.cTime,jdbcType=TIMESTAMP}, #{obj.cGlu,jdbcType=DECIMAL}, 
+      #{obj.cFlag,jdbcType=SMALLINT}, #{obj.cRes,jdbcType=SMALLINT}, #{obj.cCtype,jdbcType=SMALLINT}, 
+      #{obj.cUpload,jdbcType=SMALLINT}, #{obj.cClientip,jdbcType=VARCHAR}, #{obj.cState,jdbcType=INTEGER}, 
+      #{obj.cPush,jdbcType=INTEGER}, #{obj.cMsgid,jdbcType=VARCHAR}, #{obj.cIsdelete,jdbcType=INTEGER}, 
+      #{obj.cCreator,jdbcType=VARCHAR}, #{obj.cCreatetime,jdbcType=TIMESTAMP}, #{obj.cChanger,jdbcType=VARCHAR}, 
+      #{obj.cChangetime,jdbcType=TIMESTAMP}, #{obj.cRemark,jdbcType=VARCHAR})
       
      </foreach>
   </insert>

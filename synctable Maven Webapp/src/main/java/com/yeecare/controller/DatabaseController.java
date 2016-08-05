@@ -67,6 +67,7 @@ public class DatabaseController {
 				map.put("code", OK);
 				map.put("msg", "同步开始...");
 				isRunning = true;
+				System.out.println("isRunning = " + isRunning);
 			} else {
 				map.put("code", OK);
 				map.put("msg", "同步正在进行...");
@@ -143,18 +144,24 @@ public class DatabaseController {
 				newBloodglucose2.setcUpload(newBloodglucose.getcUpload());
 				newBloodglucose2.setcClientip(newBloodglucose.getcClientip());
 				newBloodglucose2.setcCtype(newBloodglucose.getcCtype());
+				newBloodglucose2.setcCreatetime(newBloodglucose.getcCreatetime());
 
 				insertDataList.add(newBloodglucose2);
 
 			}
 			
-			int result = slaveService.batchSave(insertDataList);
+			try {
+				int result = slaveService.batchSave(insertDataList);
 
-			if (result != 0) {
-				System.out.println("保存 " + result + "条数据");
-			} else {
-				System.out.println("保存失败！");
+				if (result != 0) {
+					System.out.println("保存 " + result + "条数据");
+				} else {
+					System.out.println("保存失败！");
+				}
+			} catch (Exception e) {
+				
 			}
+			
 		
 		}else {
 			System.out.println("暂无新数据！");
