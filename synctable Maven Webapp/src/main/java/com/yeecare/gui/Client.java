@@ -12,6 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -24,6 +25,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+
+import com.yeecare.master.service.ICrmBloodglucoseService;
+import com.yeecare.slave.service.IBloodglucoseService;
 
 
 public class Client {
@@ -43,7 +47,11 @@ public class Client {
 	private static JButton stopButton;
 	private static JTextField periodTextField;
 	
+	@Resource
+	private  ICrmBloodglucoseService masterService;
 	
+	@Resource
+	private  IBloodglucoseService slaveService;
 
 	public static void main(String[] args) {
 		
@@ -157,10 +165,7 @@ public class Client {
 
 				@Override
 				public void run() {
-					Long begin = new Date().getTime();  
 					
-			        Long end = new Date().getTime(); 
-					System.out.println("programe running time:"+(end - begin)/1000 + " ms");
 				}
 
 			};

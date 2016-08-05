@@ -37,7 +37,7 @@
   <delete id="batchDeleteById" parameterType="java.util.List">
     delete from temp_crm_bloodglucose where C_ID in
     <foreach collection="list" index="index" item="item" open="(" separator="," close=")"> 
-        #{item.C_ID} 
+        #{item.cId} 
     </foreach>
   </delete>
   <insert id="insert" parameterType="com.yeecare.master.pojo.TempCrmBloodglucose" >
