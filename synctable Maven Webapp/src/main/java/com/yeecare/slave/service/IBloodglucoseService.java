@@ -12,4 +12,6 @@ public interface IBloodglucoseService {
 	
 	public int batchSave(List<Bloodglucose> list);
 	
+	public Bloodglucose selectByPrimaryKey(String cId);
+	
 }

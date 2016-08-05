@@ -33,4 +33,9 @@ public class BloodglucoseService implements IBloodglucoseService {
 		return slaveDao.batchSave(list);
 	}
 
+	@Override
+	public Bloodglucose selectByPrimaryKey(String cId) {
+		return slaveDao.selectByPrimaryKey(cId);
+	}
+
 }
