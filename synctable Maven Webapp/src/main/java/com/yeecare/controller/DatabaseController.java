@@ -11,6 +11,8 @@ import java.util.TimerTask;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +27,7 @@ import com.yeecare.slave.service.IBloodglucoseService;
 @Controller
 @RequestMapping("synchronized")
 public class DatabaseController {
-
+	private static Logger logger = LogManager.getLogger(DatabaseController.class.getName());
 	private static final int OK = 0;
 	private static final int ERROR = 1;
 	private boolean isRunning = false;
@@ -46,14 +48,14 @@ public class DatabaseController {
 	public Map<String, Object> start(
 			@RequestParam(value = "period", required = true) String period) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println("程序开始...");
+		logger.info("程序开始...");
 
 		if (period == null) {
 			map.put("code", ERROR);
 			map.put("msg", "请输入休眠时间！");
 		} else {
 			if (!isRunning) {
-				System.out.println("isRunning = " + isRunning);
+				logger.info("isRunning = " + isRunning);
 				TimerTask task = new TimerTask() {
 
 					@Override
@@ -67,7 +69,7 @@ public class DatabaseController {
 				map.put("code", OK);
 				map.put("msg", "同步开始...");
 				isRunning = true;
-				System.out.println("isRunning = " + isRunning);
+				logger.info("isRunning = " + isRunning);
 			} else {
 				map.put("code", OK);
 				map.put("msg", "同步正在进行...");
@@ -108,7 +110,7 @@ public class DatabaseController {
 //			TempCrmBloodglucose crmBloodglucose = iter.next();
 //			for (Bloodglucose bloodglucose : slavelList) {
 //				if (bloodglucose.getcId().equals(crmBloodglucose.getcId())) {
-//					 System.out.println("相同数据：" + crmBloodglucose.getcId());
+//					 logger.info("相同数据：" + crmBloodglucose.getcId());
 //					 sourceDeleteData.add(crmBloodglucose);
 //					 iter.remove();
 //				 }
@@ -127,11 +129,11 @@ public class DatabaseController {
 		
 		// save new data into slave database
 		if (masterList.size() > 0) {
-			System.out.println("masterList.size = " + masterList.size());
+			logger.info("masterList.size = " + masterList.size());
 			List<Bloodglucose> insertDataList = new ArrayList<Bloodglucose>();
 
 			for (TempCrmBloodglucose newBloodglucose : masterList) {
-				System.out.println("新数据： " + newBloodglucose.getcId());
+				logger.info("新数据： " + newBloodglucose.getcId());
 				Bloodglucose newBloodglucose2 = new Bloodglucose();
 				newBloodglucose2.setcId(newBloodglucose.getcId());
 				newBloodglucose2.setcUid(newBloodglucose.getcUid());
@@ -154,17 +156,18 @@ public class DatabaseController {
 				int result = slaveService.batchSave(insertDataList);
 
 				if (result != 0) {
-					System.out.println("保存 " + result + "条数据");
+					logger.info("保存 " + result + "条数据");
 				} else {
-					System.out.println("保存失败！");
+					logger.info("保存失败！");
 				}
 			} catch (Exception e) {
-				
+				e.printStackTrace();
+				logger.info("保存异常！" + e);
 			}
 			
 		
 		}else {
-			System.out.println("暂无新数据！");
+			logger.info("暂无新数据！");
 		}
 
 		// delete master data
@@ -172,25 +175,25 @@ public class DatabaseController {
 		// for (Bloodglucose bloodglucose : insertDataList) {
 		// int deleteResult = masterService.deleteById(bloodglucose.getcId());
 		// if (deleteResult!= 0) {
-		// System.out.println("删除成功");
+		// logger.info("删除成功");
 		// }else {
-		// System.out.println("删除失败");
+		// logger.info("删除失败");
 		// }
 		// }
 		//
 		if (sourceDeleteData.size() > 0) {
 			int deleteResult = masterService.batchDeleteById(sourceDeleteData);
 			if (deleteResult != 0) {
-				System.out.println("删除  " + deleteResult + "条数据");
+				logger.info("删除  " + deleteResult + "条数据");
 			} else {
-				System.out.println("删除失败");
+				logger.info("删除失败");
 			}
 		} else {
-			System.out.println("暂无数据删除");
+			logger.info("暂无数据删除");
 		}
 
 		Long end = new Date().getTime();
-		System.out.println("do bussiness time:" + (end - begin) / 1000 + " ms");
+		logger.info("do bussiness time:" + (end - begin) / 1000 + " ms");
 	}
 
 }
