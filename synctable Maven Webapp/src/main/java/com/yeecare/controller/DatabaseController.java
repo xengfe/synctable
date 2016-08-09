@@ -147,6 +147,8 @@ public class DatabaseController {
 				newBloodglucose2.setcClientip(newBloodglucose.getcClientip());
 				newBloodglucose2.setcCtype(newBloodglucose.getcCtype());
 				newBloodglucose2.setcCreatetime(newBloodglucose.getcCreatetime());
+				newBloodglucose2.setcIsdelete(0);
+				newBloodglucose2.setcPush(0);
 
 				insertDataList.add(newBloodglucose2);
 
